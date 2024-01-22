@@ -25,3 +25,8 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+/* カレンダーの未来の日付を灰色にします */
+.future-date {
+  background-color: #e0e0e0; /* グレーの背景色 */
+}
