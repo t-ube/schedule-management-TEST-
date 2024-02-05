@@ -1,0 +1,15 @@
+html, body, #__next {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* オーバーフローを非表示にする（必要に応じて） */
+  }
+  
+  #__next {
+    display: flex;
+    flex-direction: column;
+  }

@@ -175,3 +175,69 @@ export function SampleCalender4() {
     </div>
   );
 }
+
+/*
+// パターン５：APIで実績を取得する
+export function APICalender() {
+
+  try {
+    // /app/api ではなく、/api だけでよいです
+    const response = await fetch('/api', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+  
+    if (response.ok) {
+      const responseText = await response.text();
+      console.log('受け取った値:', responseText);
+    } else {
+      console.error('送信エラー:', response.statusText);
+    }
+  } catch (error) {
+    console.error('通信エラー:', error);
+  }
+
+  // 日付がクリックされたときに呼ばれるハンドラ
+  const handleDateClick = useCallback((arg: DateClickArg) => {
+    // クリックされた日付をコンソールに表示
+    // ここで他のアクションを実行する
+    alert(arg.dateStr);
+  }, []);
+
+  // 未来の日付に適用するクラス名を決定
+  const dayCellClassNames = (arg: any) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (arg.date >= today) {
+        console.log("log");
+        return ["future-date"]; // 未来の日付に 'future-date' クラスを適用
+    }
+    return [];
+  }
+
+  // 日付セルがDOMに追加された後の処理
+  const dayCellDidMount = (arg: any) => {
+    // 必要に応じて追加の処理をここに記述
+  }
+
+  return (
+    <div className={styles.top}>
+      <FullCalendar
+        eventTextColor="white"
+        locales={allLocales} // today ボタンを日本語にします
+        locale="ja" // カレンダーを日本語にします
+        plugins={[dayGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth"
+        events={memos}
+        displayEventTime={false} // falseのとき時刻を非表示にします
+        dateClick={handleDateClick} // 日付クリックイベントハンドラを設定
+        dayCellClassNames={dayCellClassNames} // 日付セルにクラス名を適用
+        dayCellDidMount={dayCellDidMount} // 日付セルのDOM追加後の処理
+      />
+    </div>
+  );
+}
+*/
