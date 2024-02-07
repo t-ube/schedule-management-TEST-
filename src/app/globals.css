@@ -26,7 +26,10 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-/* カレンダーの未来の日付を灰色にします */
 .future-date {
-  background-color: #e0e0e0; /* グレーの背景色 */
+  background-color: #e0e0e0;
+}
+
+.fc-event-title, .fc-event-title-container {
+  white-space: normal; /* 謚倥ｊ霑斐＠繧定ｨｱ蜿ｯ */
 }

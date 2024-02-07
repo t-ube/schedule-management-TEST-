@@ -79,6 +79,14 @@ export function RecordBarChart({ endDate, records } : RecordBarChartProps) {
         text: '実績グラフ',
       },
     },
+    scales: {
+      y: {              // Y軸
+        ticks: {        // 目盛り        
+          min: 0,       // 最小値
+          stepSize: 1   // 間隔
+        }
+      }
+    }
   }
 
   const data = {
@@ -94,7 +102,7 @@ export function RecordBarChart({ endDate, records } : RecordBarChartProps) {
 
   return (
     <>
-      <div className={styles.piechart}>
+      <div className={styles.barchart}>
         <Bar
           data={data}
           options={options}

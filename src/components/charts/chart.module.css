@@ -4,3 +4,10 @@
   height: 80vh;
   width: 80vw;
 }
+
+.barchart {
+  position: relative;
+  box-sizing: border-box;
+  width: 80vw;
+  padding-bottom: 2rem;
+}
