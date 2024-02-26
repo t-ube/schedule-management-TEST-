@@ -8,3 +8,9 @@ export type RecordData = {
     updatedAt: string;
     deletedAt: string | null;
 };
+
+export type EditingRecordData = {
+    date: Date;
+    duration: number;
+    note: string;
+};

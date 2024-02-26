@@ -1,0 +1,67 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.main {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.item {
+  margin-bottom: 15px;
+}
+
+.date {
+  text-align: center;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.itemLabel {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.inputArea {
+  padding: 10px 15px;
+  border: solid 1px #9E9E9E; 
+  border-radius: 5px;
+}
+
+.textArea {
+  padding: 10px 15px;
+  border: solid 1px #9E9E9E; 
+  border-radius: 5px;
+  width: 300px;
+  height: 100px;
+}
+
+.buttonSave {
+  background-color: #1976D2;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.buttonClose {
+  background-color: #9E9E9E;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}

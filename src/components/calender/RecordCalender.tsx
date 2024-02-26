@@ -11,6 +11,7 @@ import { RecordData } from '../../types/recordTypes';
 
 export type RecordBarChartProps = {
   onDatesSet: (arg: DatesSetArg) => void,
+  onDateClick: (arg: DateClickArg) => void,
   records: RecordData[] | [],
 };
 
@@ -33,19 +34,12 @@ export function convertRecordDataToMemos(records: RecordData[]): Memo[] {
 }
 
 // 実績カレンダー
-export function RecordCalendar({ onDatesSet, records } : RecordBarChartProps) {
+export function RecordCalendar({ onDatesSet, onDateClick, records } : RecordBarChartProps) {
   const [memos, setMemos] = useState<Memo[]>([]);
   
   useEffect(()=>{
     setMemos(convertRecordDataToMemos(records));
   },[records])
-
-  // 日付がクリックされたときに呼ばれるハンドラ
-  const handleDateClick = useCallback((arg: DateClickArg) => {
-    // クリックされた日付をコンソールに表示
-    // ここで他のアクションを実行する
-    alert(arg.dateStr);
-  }, []);
 
   // 未来の日付に適用するクラス名を決定
   const dayCellClassNames = (arg: any) => {
@@ -73,7 +67,7 @@ export function RecordCalendar({ onDatesSet, records } : RecordBarChartProps) {
         initialView="dayGridMonth"
         events={memos}
         displayEventTime={false} // falseのとき時刻を非表示にします
-        dateClick={handleDateClick} // 日付クリックイベントハンドラを設定
+        dateClick={onDateClick} // 日付クリックイベントハンドラを設定
         dayCellClassNames={dayCellClassNames} // 日付セルにクラス名を適用
         dayCellDidMount={dayCellDidMount} // 日付セルのDOM追加後の処理
         datesSet={onDatesSet} // 表示範囲変更コールバック関数
