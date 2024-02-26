@@ -211,6 +211,7 @@ export default function Home() {
 
       if (response.ok) {
         const responseData = await response.json();
+        setCurrentTime(new Date().toISOString());
         console.log('保存成功:', responseData);
       } else {
         console.error('送信エラー:', response.statusText);
