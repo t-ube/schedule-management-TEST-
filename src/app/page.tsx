@@ -183,7 +183,7 @@ export default function Home() {
       console.error('通信エラー:', error);
     }
 
-  }, []);
+  }, [userId]);
 
   // 実績保存時に呼ばれるハンドラ
   const handleRecordSave = useCallback(async (date: Date, duration: number, note: string) => {
