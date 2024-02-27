@@ -13,4 +13,5 @@ export type EditingRecordData = {
     date: Date;
     duration: number;
     note: string;
+    created: boolean;
 };

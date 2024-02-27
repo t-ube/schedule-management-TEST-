@@ -17,6 +17,7 @@ export function RecordDialog({ record, isOpen, onClose, onSave } : DialogProps) 
   const [date, setDate] = useState<Date>(record.date);
   const [duration, setDuration] = useState<number>(record.duration);
   const [note, setNote] = useState<string>(record.note);
+  const [created, setCreated] = useState<boolean>(record.created);
 
   // Close 状態になったときに呼ばれる
   useEffect(() => {
@@ -37,6 +38,7 @@ export function RecordDialog({ record, isOpen, onClose, onSave } : DialogProps) 
     setDate(record.date);
     setDuration(record.duration);
     setNote(record.note);
+    setCreated(record.created);
   }, [record]);
 
   if (!isOpen)
@@ -90,13 +92,27 @@ export function RecordDialog({ record, isOpen, onClose, onSave } : DialogProps) 
               setDuration(value)
             }
           }}
+          disabled={created}
         />
       </div>
       <div className={styles.item}>
         <label className={styles.itemLabel}>メモ（1000文字以内）:</label>
-        <textarea className={styles.textArea} value={note} onChange={(e) => setNote(e.target.value)} maxLength={1000} />
+        <textarea
+          className={styles.textArea}
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          maxLength={1000}
+          disabled={created}
+        />
       </div>
-      <button className={styles.buttonSave} onClick={handleSave}>保存</button>
+      <button
+        className={styles.buttonSave}
+        onClick={handleSave}
+        disabled={created}
+        hidden={created}
+      >
+        保存
+      </button>
       <button className={styles.buttonClose} onClick={onClose}>閉じる</button>
     </div>
   </div>

@@ -19,7 +19,8 @@ export default function Home() {
   const [editingRecord, setEditingRecord] = useState<EditingRecordData>({
     date: new Date(),
     duration: 0,
-    note: ''
+    note: '',
+    created: false
   });
 
   const fetchUserData = async () => {
@@ -157,7 +158,8 @@ export default function Home() {
         let editing: EditingRecordData = {
           date: clickDateObject,
           duration: 0,
-          note: ''
+          note: '',
+          created: false
         };
 
         // 実績の配列を受け取る
@@ -169,6 +171,7 @@ export default function Home() {
           editing.date = new Date(responseData[0].date);
           editing.duration = responseData[0].duration;
           editing.note = responseData[0].note;
+          editing.created = true;
         }
 
         setEditingRecord(editing);
