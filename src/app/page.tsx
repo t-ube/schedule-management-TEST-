@@ -8,6 +8,7 @@ import { RecordCalendar } from '../components/calender/RecordCalender';
 import { Header } from '../components/header/header';
 import { RecordDialog } from '../components/dialog/RecordDialog';
 import { RecordData, EditingRecordData } from '../types/recordTypes';
+import { DaysOfWeekData } from '../types/daysofWeekTypes';
 
 export default function Home() {
   const [userName, setUserName] = useState('ゲスト');
@@ -22,6 +23,7 @@ export default function Home() {
     note: '',
     created: false
   });
+  const [daysOfWeekDataList, setDaysOfWeekDataList] = useState<DaysOfWeekData[]>([]);
 
   const fetchUserData = async () => {
     try {
@@ -71,6 +73,7 @@ export default function Home() {
   useEffect(()=>{
     setCurrentTime(new Date().toISOString());
     fetchUserData();
+    fetchDaysOfWeekListData();
   },[])
 
   const fetchCalendarRecordData = useCallback(async () => {
@@ -96,6 +99,26 @@ export default function Home() {
       console.error('通信エラー:', error);
     }
   }, [userId,currentTime]);
+
+  const fetchDaysOfWeekListData = async () => {
+    try {
+      const response = await fetch('/api/daysofWeek', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        const responseData: DaysOfWeekData[] = await response.json();
+        setDaysOfWeekDataList(responseData);
+        console.log('受け取った値:', responseData);
+      } else {
+        console.error('送信エラー:', response.statusText);
+      }
+    } catch (error) {
+      console.error('通信エラー:', error);
+    }
+  };
 
   // 表示範囲変更コールバック関数
   const handleDatesSet = useCallback(async (arg:any) => {
