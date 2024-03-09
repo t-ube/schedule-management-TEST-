@@ -9,7 +9,8 @@ import { Header } from '../components/header/header';
 import { RecordDialog } from '../components/dialog/RecordDialog';
 import { RecordData, EditingRecordData } from '../types/recordTypes';
 import { DaysOfWeekData } from '../types/daysofWeekTypes';
-import { ScheduleData } from '../types/scheduleTypes';
+import { ScheduleData, EditingScheduleData } from '../types/scheduleTypes';
+import { createEditingSchedules } from '../utils/scheduleConverter';
 
 export default function Home() {
   const [userName, setUserName] = useState('ゲスト');
@@ -26,6 +27,7 @@ export default function Home() {
   });
   const [daysOfWeekDataList, setDaysOfWeekDataList] = useState<DaysOfWeekData[]>([]);
   const [scheduleDataList, setScheduleDataList] = useState<ScheduleData[]>([]);
+  const [editingScheduleDataList, setEditingScheduleDataList] = useState<EditingScheduleData[]>([]);
 
   const fetchUserData = async () => {
     try {
@@ -78,6 +80,18 @@ export default function Home() {
     fetchDaysOfWeekListData();
     fetchScheduleListData();
   },[])
+
+  useEffect(()=>{
+    let newSchedules = createEditingSchedules(
+      daysOfWeekDataList,
+      scheduleDataList
+    );
+    console.log("編集用のスケジュール:");
+    newSchedules.forEach(schedule => {
+      console.log(schedule);
+    });
+    setEditingScheduleDataList(newSchedules);
+  },[daysOfWeekDataList, scheduleDataList])
 
   const fetchCalendarRecordData = useCallback(async () => {
     const endDateObject = new Date(currentTime);
