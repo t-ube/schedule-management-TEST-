@@ -9,6 +9,7 @@ import { Header } from '../components/header/header';
 import { RecordDialog } from '../components/dialog/RecordDialog';
 import { RecordData, EditingRecordData } from '../types/recordTypes';
 import { DaysOfWeekData } from '../types/daysofWeekTypes';
+import { ScheduleData } from '../types/scheduleTypes';
 
 export default function Home() {
   const [userName, setUserName] = useState('ゲスト');
@@ -24,6 +25,7 @@ export default function Home() {
     created: false
   });
   const [daysOfWeekDataList, setDaysOfWeekDataList] = useState<DaysOfWeekData[]>([]);
+  const [scheduleDataList, setScheduleDataList] = useState<ScheduleData[]>([]);
 
   const fetchUserData = async () => {
     try {
@@ -37,7 +39,7 @@ export default function Home() {
         const responseData = await response.json();
         setUserName(responseData.name); // レスポンスからname要素を取り出し、設定
         setUserId(responseData.userId); // レスポンスからuserId要素を取り出し、設定
-        console.log('受け取った値:', responseData);
+        console.log('/api/user から受け取った値:', responseData);
       } else {
         console.error('送信エラー:', response.statusText);
       }
@@ -61,7 +63,7 @@ export default function Home() {
       if (response.ok) {
         const responseData = await response.json();
         setRecords(responseData);
-        console.log('受け取った値:', responseData);
+        console.log('/api/record から受け取った値:', responseData);
       } else {
         console.error('送信エラー:', response.statusText);
       }
@@ -74,6 +76,7 @@ export default function Home() {
     setCurrentTime(new Date().toISOString());
     fetchUserData();
     fetchDaysOfWeekListData();
+    fetchScheduleListData();
   },[])
 
   const fetchCalendarRecordData = useCallback(async () => {
@@ -91,7 +94,7 @@ export default function Home() {
       if (response.ok) {
         const responseData = await response.json();
         setCalendarRecords(responseData);
-        console.log('受け取った値:', responseData);
+        console.log('/api/record から受け取った値:', responseData);
       } else {
         console.error('送信エラー:', response.statusText);
       }
@@ -111,7 +114,27 @@ export default function Home() {
       if (response.ok) {
         const responseData: DaysOfWeekData[] = await response.json();
         setDaysOfWeekDataList(responseData);
-        console.log('受け取った値:', responseData);
+        console.log('/api/daysofWeek から受け取った値:', responseData);
+      } else {
+        console.error('送信エラー:', response.statusText);
+      }
+    } catch (error) {
+      console.error('通信エラー:', error);
+    }
+  };
+
+  const fetchScheduleListData = async () => {
+    try {
+      const response = await fetch('/api/schedule', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        const responseData: ScheduleData[] = await response.json();
+        setScheduleDataList(responseData);
+        console.log('/api/schedule から受け取った値:', responseData);
       } else {
         console.error('送信エラー:', response.statusText);
       }
@@ -142,7 +165,7 @@ export default function Home() {
       if (response.ok) {
         const responseData = await response.json();
         setCalendarRecords(responseData);
-        console.log('受け取った値:', responseData);
+        console.log('/api/record から受け取った値:', responseData);
       } else {
         console.error('送信エラー:', response.statusText);
       }
@@ -187,7 +210,7 @@ export default function Home() {
 
         // 実績の配列を受け取る
         const responseData: RecordData[] = await response.json();
-        console.log('受け取った値:', responseData);
+        console.log('/api/record から受け取った値:', responseData);
 
         if (responseData.length > 0) {
           //  実績の配列が空でないとき、配列の先頭のアイテムを編集する
@@ -238,7 +261,7 @@ export default function Home() {
       if (response.ok) {
         const responseData = await response.json();
         setCurrentTime(new Date().toISOString());
-        console.log('保存成功:', responseData);
+        console.log('/api/record で保存成功:', responseData);
       } else {
         console.error('送信エラー:', response.statusText);
       }
