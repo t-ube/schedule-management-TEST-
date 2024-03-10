@@ -288,18 +288,71 @@ export default function Home() {
 
   },[userId]);
 
-  // スケジュールの学習時間を変更するハンドラー
-  const handleDurationChange = (index: number, newDuration: number) => {
+  // スケジュールの学習時間を変更するハンドラ
+  const handleDurationChange = useCallback(async (index: number, newDuration: number) => {
+    console.log(`index:${index}/newDuration:${newDuration}`);
+    
     // バリデーション：最小値は0、最大値は24
     if (newDuration < 0 || newDuration > 24) {
       console.log("学習時間は0から24時間の間で指定してください。");
       return; // バリデーションに失敗した場合は処理を中止
     }
-    const updatedSchedules = [...editingScheduleDataList];
-    updatedSchedules[index].duration = newDuration;
-    console.log(`${updatedSchedules[index].dayOfWeekName} :${updatedSchedules[index].duration}時間`);
-    setEditingScheduleDataList(updatedSchedules);
-  };
+
+    if (!userId) {
+      return;
+    }
+
+    let method: string = 'POST';
+    let body: string = '{}';
+
+    console.log(editingScheduleDataList[index]);
+    
+    if (editingScheduleDataList[index].created === true) {
+      // 作成済みのスケジュール
+      method = 'PUT';
+      body = JSON.stringify(
+        {
+          "scheduleId": editingScheduleDataList[index].scheduleId,
+          "duration": newDuration,
+        }
+      );
+    } else {
+      // 未作成のスケジュール
+      method = 'POST';
+      body = JSON.stringify(
+        {
+          "userId": userId,
+          "dayOfWeekId": editingScheduleDataList[index].dayOfWeekId,
+          "duration": newDuration,
+        }
+      );
+    }
+
+    // データの保存
+    try {
+      const response = await fetch(`/api/schedule`, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('/api/schedule で保存成功:', responseData);
+        
+        await fetchScheduleListData();
+
+      } else {
+        console.error('送信エラー:', response.statusText);
+      }
+
+    } catch (error) {
+      console.error('通信エラー:', error);
+    }
+
+  },[userId, editingScheduleDataList]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
