@@ -16,6 +16,12 @@ export const WeeklySchedule = ({ weeklySchedule }: { weeklySchedule: EditingSche
 
   // スケジュールの学習時間を変更するハンドラー
   const handleDurationChange = (index: number, newDuration: number) => {
+    // バリデーション：最小値は0、最大値は24
+    if (newDuration < 0 || newDuration > 24) {
+      console.log("学習時間は0から24時間の間で指定してください。");
+      return; // バリデーションに失敗した場合は処理を中止
+    }
+
     const updatedSchedules = [...editedSchedules];
     updatedSchedules[index].duration = newDuration;
     console.log(`${updatedSchedules[index].dayOfWeekName} :${updatedSchedules[index].duration}時間`);
