@@ -40,3 +40,20 @@ export function createEditingSchedules (dows: DaysOfWeekData[], schedules: Sched
     // 配列を返します //
     return editingSchedules;
 }
+
+
+// 一週間のスケジュールを並び替える関数
+export function sortWeeklySchedule(schedule: EditingScheduleData[]): EditingScheduleData[] {
+    const orderedDaysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    console.log(orderedDaysOfWeek.indexOf('a'));
+    console.log(orderedDaysOfWeek.indexOf('Monday'));
+    // 曜日の順序に従ってソートする
+    const sortedSchedule = [...schedule].sort((a, b) => {
+        const indexA = orderedDaysOfWeek.indexOf(a.dayOfWeekName);
+        const indexB = orderedDaysOfWeek.indexOf(b.dayOfWeekName);
+        return indexA - indexB;
+    });
+
+    return sortedSchedule;
+}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 // EditingScheduleData型をimport
 import { EditingScheduleData } from '../../types/scheduleTypes';
+import { sortWeeklySchedule } from '../../utils/scheduleConverter';
 import styles from "./schedule.module.css";
 
 // 日本語の曜日名を定義
@@ -17,10 +18,10 @@ const dayOfWeekNamesJP: { [key: string]: string } = {
 
 // 一週間分のスケジュールを表示するコンポーネント
 export const WeeklySchedule = ({ weeklySchedule }: { weeklySchedule: EditingScheduleData[] }) => {
-  const [editedSchedules, setEditedSchedules] = useState(weeklySchedule);
+  const [editedSchedules, setEditedSchedules] = useState(sortWeeklySchedule(weeklySchedule));
 
   useEffect(()=>{
-    setEditedSchedules(weeklySchedule);
+    setEditedSchedules(sortWeeklySchedule(weeklySchedule));
   },[weeklySchedule])
 
   // スケジュールの学習時間を変更するハンドラー
