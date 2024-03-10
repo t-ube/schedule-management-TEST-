@@ -7,10 +7,12 @@ import { RecordBarChart, RecordBarChartProps } from '../components/charts/Record
 import { RecordCalendar } from '../components/calender/RecordCalender';
 import { Header } from '../components/header/header';
 import { RecordDialog } from '../components/dialog/RecordDialog';
+import { WeeklySchedule } from '../components/schedule/WeeklySchedule';
 import { RecordData, EditingRecordData } from '../types/recordTypes';
 import { DaysOfWeekData } from '../types/daysofWeekTypes';
 import { ScheduleData, EditingScheduleData } from '../types/scheduleTypes';
 import { createEditingSchedules } from '../utils/scheduleConverter';
+
 
 export default function Home() {
   const [userName, setUserName] = useState('ゲスト');
@@ -291,6 +293,9 @@ export default function Home() {
       <Header/>
       {`こんにちは ${userName} さん`}
       <p>{`今の時刻は${currentTime}`}</p>
+      <div style={{ display: 'flex', justifyContent: 'center', width: '100%'}}>
+        <WeeklySchedule weeklySchedule={editingScheduleDataList} />
+      </div>
       <RecordBarChart endDate={currentTime} records={records}/>
       <RecordCalendar onDatesSet={handleDatesSet} onDateClick={handleDateClick} records={calendarRecords}/>
       <RecordDialog record={editingRecord} isOpen={isDialogOpen} onClose={closeDialog} onSave={handleRecordSave}>

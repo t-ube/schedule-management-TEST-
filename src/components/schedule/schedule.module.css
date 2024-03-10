@@ -1,0 +1,19 @@
+.weeklyScheduleContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.scheduleItem {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.durationInput {
+  display: flex;
+  align-items: center;
+}
+
+.durationInput input {
+  margin-left: 5px;
+  max-width: 60px;
+}
