@@ -11,7 +11,7 @@ import { WeeklySchedule } from '../components/schedule/WeeklySchedule';
 import { RecordData, EditingRecordData } from '../types/recordTypes';
 import { DaysOfWeekData } from '../types/daysofWeekTypes';
 import { ScheduleData, EditingScheduleData } from '../types/scheduleTypes';
-import { createEditingSchedules } from '../utils/scheduleConverter';
+import { createEditingSchedules, sortWeeklySchedule } from '../utils/scheduleConverter';
 
 
 export default function Home() {
@@ -92,7 +92,7 @@ export default function Home() {
     newSchedules.forEach(schedule => {
       console.log(schedule);
     });
-    setEditingScheduleDataList(newSchedules);
+    setEditingScheduleDataList(sortWeeklySchedule(newSchedules));
   },[daysOfWeekDataList, scheduleDataList])
 
   const fetchCalendarRecordData = useCallback(async () => {
@@ -288,13 +288,26 @@ export default function Home() {
 
   },[userId]);
 
+  // スケジュールの学習時間を変更するハンドラー
+  const handleDurationChange = (index: number, newDuration: number) => {
+    // バリデーション：最小値は0、最大値は24
+    if (newDuration < 0 || newDuration > 24) {
+      console.log("学習時間は0から24時間の間で指定してください。");
+      return; // バリデーションに失敗した場合は処理を中止
+    }
+    const updatedSchedules = [...editingScheduleDataList];
+    updatedSchedules[index].duration = newDuration;
+    console.log(`${updatedSchedules[index].dayOfWeekName} :${updatedSchedules[index].duration}時間`);
+    setEditingScheduleDataList(updatedSchedules);
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <Header/>
       {`こんにちは ${userName} さん`}
       <p>{`今の時刻は${currentTime}`}</p>
       <div style={{ display: 'flex', justifyContent: 'center', width: '100%'}}>
-        <WeeklySchedule weeklySchedule={editingScheduleDataList} />
+        <WeeklySchedule weeklySchedule={editingScheduleDataList} onChange={handleDurationChange} />
       </div>
       <RecordBarChart endDate={currentTime} records={records}/>
       <RecordCalendar onDatesSet={handleDatesSet} onDateClick={handleDateClick} records={calendarRecords}/>

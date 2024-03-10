@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 
 // EditingScheduleData型をimport
 import { EditingScheduleData } from '../../types/scheduleTypes';
-import { sortWeeklySchedule } from '../../utils/scheduleConverter';
 import styles from "./schedule.module.css";
 
 // 日本語の曜日名を定義
@@ -16,27 +15,19 @@ const dayOfWeekNamesJP: { [key: string]: string } = {
   "Sunday": "日曜日"
 };
 
+export type Props = {
+  weeklySchedule: EditingScheduleData[];
+  onChange: (index: number, newDuration: number) => void;
+};
+
 // 一週間分のスケジュールを表示するコンポーネント
-export const WeeklySchedule = ({ weeklySchedule }: { weeklySchedule: EditingScheduleData[] }) => {
-  const [editedSchedules, setEditedSchedules] = useState(sortWeeklySchedule(weeklySchedule));
+export const WeeklySchedule = ({ weeklySchedule, onChange }: Props) => {
+  const [editedSchedules, setEditedSchedules] = useState(weeklySchedule);
 
   useEffect(()=>{
-    setEditedSchedules(sortWeeklySchedule(weeklySchedule));
+    setEditedSchedules(weeklySchedule);
   },[weeklySchedule])
 
-  // スケジュールの学習時間を変更するハンドラー
-  const handleDurationChange = (index: number, newDuration: number) => {
-    // バリデーション：最小値は0、最大値は24
-    if (newDuration < 0 || newDuration > 24) {
-      console.log("学習時間は0から24時間の間で指定してください。");
-      return; // バリデーションに失敗した場合は処理を中止
-    }
-
-    const updatedSchedules = [...editedSchedules];
-    updatedSchedules[index].duration = newDuration;
-    console.log(`${updatedSchedules[index].dayOfWeekName} :${updatedSchedules[index].duration}時間`);
-    setEditedSchedules(updatedSchedules);
-  };
 
   // 日本語の曜日名を返す
   function getDaysOfWeekNameJP(name:string):string {
@@ -55,7 +46,7 @@ export const WeeklySchedule = ({ weeklySchedule }: { weeklySchedule: EditingSche
             <input 
               type="number" 
               value={schedule.duration ?? ''} 
-              onChange={(e) => handleDurationChange(index, parseInt(e.target.value))}
+              onChange={(e) => onChange(index, parseInt(e.target.value))}
             />
             <span>時間</span>
           </div>
