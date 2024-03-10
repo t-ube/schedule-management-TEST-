@@ -1,10 +1,19 @@
-"use client";
-
 import { useState, useEffect } from 'react';
 
 // EditingScheduleData型をimport
 import { EditingScheduleData } from '../../types/scheduleTypes';
 import styles from "./schedule.module.css";
+
+// 日本語の曜日名を定義
+const dayOfWeekNamesJP: { [key: string]: string } = {
+  "Monday": "月曜日",
+  "Tuesday": "火曜日",
+  "Wednesday": "水曜日",
+  "Thursday": "木曜日",
+  "Friday": "金曜日",
+  "Saturday": "土曜日",
+  "Sunday": "日曜日"
+};
 
 // 一週間分のスケジュールを表示するコンポーネント
 export const WeeklySchedule = ({ weeklySchedule }: { weeklySchedule: EditingScheduleData[] }) => {
@@ -28,11 +37,19 @@ export const WeeklySchedule = ({ weeklySchedule }: { weeklySchedule: EditingSche
     setEditedSchedules(updatedSchedules);
   };
 
+  // 日本語の曜日名を返す
+  function getDaysOfWeekNameJP(name:string):string {
+    if (dayOfWeekNamesJP.hasOwnProperty(name)) {
+      return dayOfWeekNamesJP[name]; 
+    }
+    return name;
+  }
+
   return (
     <div className={styles.weeklyScheduleContainer}>
       {editedSchedules.map((schedule, index) => (
         <div key={schedule.dayOfWeekId} className={styles.scheduleItem}>
-          <h2>{schedule.dayOfWeekName}</h2>
+          <h2>{getDaysOfWeekNameJP(schedule.dayOfWeekName)}</h2>
           <div className={styles.durationInput}>
             <input 
               type="number" 
